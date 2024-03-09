@@ -15,18 +15,18 @@ class World:
         self.stop_time = stop_time
         self.timestep = timestep
 
-        self.entities = dict()
+        self.entities = list()
 
     def _advance_time(self):
         self.current_time += self.timestep
 
     def start_sim(self):
         while self.stop_time > self.current_time:
-            for entity in self.entities.values():
-                entity.update_position(self.timestep)
+            for entity in self.entities:
+                entity.propagator.update_position(self.timestep)
             self._advance_time()
 
         print('Simulation Compete')
 
-    def register_entity(self, entity):
-        self.entities.update({entity.id: entity})
+    def add_entity(self, entity):
+        self.entities.append(entity)

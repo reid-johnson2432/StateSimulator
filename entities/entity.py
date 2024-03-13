@@ -13,4 +13,5 @@ from environment.propagators.propagator import Propagator
 class Entity:
     def __init__(self, **kwargs):
         self.name = kwargs.get('name', uuid.uuid4())
-        self.propagator = Propagator(self)
+        propagator_class = kwargs.get('propagator_class', Propagator)
+        self.propagator = propagator_class(self)

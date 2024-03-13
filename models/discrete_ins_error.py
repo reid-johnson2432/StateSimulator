@@ -11,7 +11,7 @@ D2R = math.pi / 180
 
 
 # TODO: Repeatability problem ?
-def main(ini_pos_vel_att, motion_def, frame='NED', fs=100.0):
+def get_ins_error(ini_pos_vel_att: np.array, motion_def: str, frame: str = 'NED', fs: float = 100.0):
     """
     param ini_pos_vel_att: numpy array:
       lat (deg), lon (deg), alt (m), vx_body (m/s), vy_body (m/s), vz_body (m/s), yaw (deg), pitch (deg), roll (deg)
@@ -66,9 +66,17 @@ def main(ini_pos_vel_att, motion_def, frame='NED', fs=100.0):
 
 if __name__ == '__main__':
     project_directory = os.path.abspath(__file__).split('models')[0]
-    motion_def_path = os.path.join(project_directory, 'gnss-ins-sim/demo_motion_def_files/motion_def-90deg_turn.csv')
+    # motion_def_path = os.path.join(project_directory, 'gnss-ins-sim/demo_motion_def_files/motion_def-90deg_turn.csv')
+    motion_def_path = \
+        """ini lat (deg),ini lon (deg),ini alt (m),ini vx_body (m/s),ini vy_body (m/s),ini vz_body (m/s),ini yaw (deg),ini pitch (deg),ini roll (deg)
+        31.9965,120.004,0,10,0,0,315,0,0
+        command type,yaw (deg),pitch (deg),roll (deg),vx_body (m/s),vy_body (m/s),vz_body (m/s),command duration (s),GPS visibility
+        1,0,0,0,0,0,0,1,0
+        1,15,0,0,0,0,0,6,0
+        1,0,0,0,0,0,0,3,0
+        """
     initial_position = [31.9965, 120.004, 0]
     initial_velocity = [10, 0, 0]
     initial_att = [315, 0, 0]
-    errors = main(np.array(initial_position + initial_velocity + initial_att), motion_def_path, frame='ECEF')
+    errors = get_ins_error(np.array(initial_position + initial_velocity + initial_att), motion_def_path, frame='ECEF')
     steve = 1

@@ -26,5 +26,5 @@ class Propagator:
     def set_velocity(self, velocity: tuple):
         raise NotImplementedError
 
-    def update_position(self, timestep: float):
+    def update_position(self, timestep: float, **kwargs):
         raise NotImplementedError

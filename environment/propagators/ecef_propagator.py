@@ -38,7 +38,7 @@ class ECEFPropagator(Propagator):
 
         new_pos_x, new_pos_y, new_pos_z = np.array([pos_x, pos_y, pos_z]) + np.array([vel_x, vel_y, vel_z]) * timestep
         self.set_position((new_pos_x, new_pos_y, new_pos_z))
-        print(self.position)
+        # print(self.position)
 
     def add_error(self, timestep):
         """

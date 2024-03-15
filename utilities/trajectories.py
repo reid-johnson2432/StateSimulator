@@ -6,8 +6,10 @@ import numpy as np
 
 from utilities.constants import earth_radius_m
 from utilities.coordinates import spherical2geodetic
+from metrics.visualizations.three_d_position_plot import make_3d_plot
 
-g = -9.8
+
+g = 9.8
 t_f = 120  # 2 min descent
 max_alt = 1e5  # 100 km
 v_f = 7e3  # velocity at impact (m/s)
@@ -40,3 +42,4 @@ if __name__ == '__main__':
     test_trajectory = create_terminal_phase_trajectory(peak_location, impact_wp)
     output_path = "/Users/reidjohnson/Desktop/"
     create_trajectory_kml(test_trajectory, output_path + 'terminal_phase.kml')
+    make_3d_plot(test_trajectory, show=True)

@@ -4,6 +4,7 @@ Create metrics from reports.
 
 import os
 from metrics.visualizations.trajectory_to_kml import create_trajectory_kml
+from metrics.visualizations.three_d_position_plot import make_3d_plot
 
 
 def post_sim_script(reports: dict, output_location):
@@ -16,5 +17,7 @@ def post_sim_script(reports: dict, output_location):
         for idx, row in entity_data.iterrows():
             lat, lon, alt = row.Latitude, row.Longitude, row.Altitude
             trajectory.append([lat, lon, alt])
-        filename = f'{entity}_trajectory.kml'
-        create_trajectory_kml(trajectory, os.path.join(output_location, filename))
+        filename = f'{entity}_trajectory'
+        create_trajectory_kml(trajectory, os.path.join(output_location, filename + '.kml'))
+        make_3d_plot(trajectory, os.path.join(output_location, filename + '.png'))
+

@@ -18,3 +18,5 @@ def create_trajectory_kml(trajectory_waypoints, output_path):
     linestring.extrude = 1  # extend to ground
     # save KML to a file
     kml.save(output_path)
+
+    return True

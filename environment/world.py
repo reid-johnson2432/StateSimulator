@@ -3,6 +3,7 @@ The World class manages sim time and
 keeps track of the position of all entities.
 """
 
+from tqdm import tqdm
 
 class World:
     def __init__(self, start_stop_time: tuple, reports, timestep=1.0, include_errors=False):
@@ -12,6 +13,7 @@ class World:
         timestep (float): Time delta between 'frames' (seconds)
         """
         start_time, stop_time = start_stop_time
+        self.start_stop_range = start_stop_time
         self.current_time = start_time
         self.stop_time = stop_time
         self.timestep = timestep
@@ -24,14 +26,11 @@ class World:
         self.current_time += self.timestep
 
     def start_sim(self):
-        while self.stop_time > self.current_time:
+        for time in tqdm(range(*self.start_stop_range, 1), ncols=100, colour='green'):
+            self.current_time = time
             for entity in self.entities:
                 entity.propagator.update_position(self.current_time, self.timestep, add_error=False)
                 self._update_reports(entity)
-            self._advance_time()
-
-        for report in self.reports:
-            print(report.data.to_string())
         print('Simulation Compete')
 
     def add_entity(self, entity):

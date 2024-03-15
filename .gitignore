@@ -163,4 +163,4 @@ gnss-ins-sim/
 tests/demo_saved_data/
 output/
 *.html
-*.csv
+.DS_Store

@@ -2,25 +2,27 @@
 Start the simulation.
 """
 
-from world import World
-from entities.generic_entity import GenericEntity
-from utilities.constants import earth_radius_m, kts_to_ms
+from entities.ballistic_missile import BallisticMissile
+from environment.world import World
+from reports.kinematics_report import KinematicsReport
 
 
-def main(start_time, stop_time, **kwargs):
-    world = World((start_time, stop_time))
+def main(start_time, stop_time):
+    # --- Create World ---
+    reports = [KinematicsReport()]
+    world = World((start_time, stop_time), reports)
 
-    # Test Case: Start at (0, 0) lat, lon on surface. Travel due north at 60 kts for 1 hour
-    # start_position = (earth_radius_m, earth_radius_m, 0)
-    # start_velocity = (0, 0, 60 * kts_to_ms)
-    start_position = (0.0, 0.0, 0.0)
-    start_velocity = (1.0, 1.0, 1.0)
-    test_entity = GenericEntity(start_position, start_velocity)
-    world.register_entity(test_entity)
+    # --- Create Ballistic Missile ---
+    test_missile = BallisticMissile(name='test_missile')
+
+    trajectory_filepath = "/Users/reidjohnson/Desktop/terminal_phase.csv"
+    test_missile.propagator.load_trajectory_file(trajectory_filepath)
+
+    world.add_entity(test_missile)
     world.start_sim()
 
 
 if __name__ == '__main__':
-    t_0 = 0.0
-    t_f = 3600.0
+    t_0 = 0
+    t_f = 120
     main(t_0, t_f)

@@ -7,6 +7,6 @@ from environment.propagators.trajectory_propagator import TrajectoryPropagator
 
 
 class BallisticMissile(Entity):
-    def __init__(self, **kwargs):
+    def __init__(self, propagator=TrajectoryPropagator, **kwargs):
         super(BallisticMissile, self).__init__(**kwargs)
-        self.propagator = TrajectoryPropagator(self)
+        self.propagator = propagator(self)

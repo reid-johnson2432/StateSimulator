@@ -29,7 +29,7 @@ class World:
         for time in tqdm(range(*self.start_stop_range, 1), ncols=100, colour='green'):
             self.current_time = time
             for entity in self.entities:
-                entity.propagator.update_position(self.current_time, self.timestep, add_error=False)
+                entity.propagator.update_position(self.current_time, self.timestep)
                 self._update_reports(entity)
         self.end_sim()
 

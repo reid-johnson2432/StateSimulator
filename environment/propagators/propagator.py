@@ -34,5 +34,5 @@ class Propagator:
     def get_geo_position(self):
         return ecef2geodetic(*self.position)
 
-    def update_position(self, current_time: float, timestep: float, **kwargs):
+    def update_position(self, current_time: float, timestep: float):
         raise NotImplementedError

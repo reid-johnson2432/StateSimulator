@@ -14,11 +14,9 @@ class TrajectoryPropagator(Propagator):
         super(TrajectoryPropagator, self).__init__(entity, **kwargs)
         self.trajectory_data = None
 
-    def update_position(self, current_time: float, timestep: float, **kwargs):
+    def update_position(self, current_time: float, timestep: float):
         position = self.position
         optimal_velocity = self.read_velocity(current_time)
-        if kwargs.get('add_errors', False):
-            pass
         updated_position = position + optimal_velocity * timestep
         self.set_position(updated_position)
 

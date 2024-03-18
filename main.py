@@ -11,6 +11,7 @@ from environment.world import World
 from metrics.post_sim_script import post_sim_script
 from reports.kinematics_report import KinematicsReport
 from time import gmtime
+from metrics.post_sim_script import post_set_script
 
 
 def main(start_time, stop_time, seed, timestamp, propagator=TrajectoryPropagator):
@@ -27,6 +28,8 @@ def main(start_time, stop_time, seed, timestamp, propagator=TrajectoryPropagator
 
     world.add_entity(test_missile)
     world.run(seed)
+    set_location = world.output_location
+    return set_location
 
 
 if __name__ == '__main__':
@@ -34,7 +37,10 @@ if __name__ == '__main__':
     t_f = 120
     start_seed, stop_seed = 0, 2
     realtime = gmtime()
+    set_location = None
     for s in range(start_seed, stop_seed):
         print(f'Starting Seed [{s}]')
-        main(t_0, t_f, s, realtime)  # ideal trajectory
-        # main(t_0, t_f, s, realtime, propagator=IMUPropagator)  # Trajectory with errors
+        # set_location = main(t_0, t_f, s, realtime)  # ideal trajectory
+        set_location = main(t_0, t_f, s, realtime, propagator=IMUPropagator)  # Trajectory with errors
+
+    post_set_script(set_location)

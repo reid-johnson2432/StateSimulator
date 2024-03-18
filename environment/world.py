@@ -3,9 +3,9 @@ The World class manages sim time and
 keeps track of the position of all entities.
 """
 import os
+from time import strftime
 
 from tqdm import tqdm
-from time import gmtime, strftime
 
 
 class World:
@@ -31,8 +31,8 @@ class World:
         for time in tqdm(range(*self.start_stop_range, 1), ncols=100, colour='green'):
             self.current_time = time
             for entity in self.entities:
-                entity.propagator.update_position(self.current_time, self.timestep)
                 self._update_reports(entity)
+                entity.propagator.update_position(self.current_time, self.timestep)
         self.create_outputs(seed)
 
     def add_entity(self, entity):

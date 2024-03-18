@@ -19,6 +19,7 @@ class TrajectoryPropagator(Propagator):
         optimal_velocity = self.read_velocity(current_time)
         updated_position = position + optimal_velocity * timestep
         self.set_position(updated_position)
+        self.set_velocity(optimal_velocity)
 
     def load_trajectory_file(self, filepath):
         self.trajectory_data = pd.read_csv(filepath)

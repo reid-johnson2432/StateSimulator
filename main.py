@@ -3,12 +3,13 @@ Start the simulation.
 """
 
 import os
+
 from entities.ballistic_missile import BallisticMissile
-from environment.world import World
-from reports.kinematics_report import KinematicsReport
-from metrics.post_sim_script import post_sim_script
-from environment.propagators.trajectory_propagator import TrajectoryPropagator
 from environment.propagators.imu_propagator import IMUPropagator
+from environment.propagators.trajectory_propagator import TrajectoryPropagator
+from environment.world import World
+from metrics.post_sim_script import post_sim_script
+from reports.kinematics_report import KinematicsReport
 
 
 def main(start_time, stop_time, propagator=TrajectoryPropagator):
@@ -24,7 +25,8 @@ def main(start_time, stop_time, propagator=TrajectoryPropagator):
     test_missile.propagator.load_trajectory_file(trajectory_filepath)
 
     world.add_entity(test_missile)
-    world.run()
+    start_seed, stop_seed = 0, 1
+    world.run(start_seed, stop_seed)
 
 
 if __name__ == '__main__':

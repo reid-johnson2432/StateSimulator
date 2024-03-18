@@ -2,7 +2,7 @@
 The World class manages sim time and
 keeps track of the position of all entities.
 """
-import os.path
+import os
 
 from tqdm import tqdm
 from time import gmtime, strftime
@@ -25,13 +25,17 @@ class World:
         self.reports = reports
         self.post_sim_script = post_sim_script
 
-    def run(self):
-        for time in tqdm(range(*self.start_stop_range, 1), ncols=100, colour='green'):
-            self.current_time = time
-            for entity in self.entities:
-                entity.propagator.update_position(self.current_time, self.timestep)
-                self._update_reports(entity)
-        self.end_sim()
+    def run(self, start_seed, end_seed):
+        for seed in range(start_seed, end_seed):
+            print(f'Starting Simulation: Seed [{seed}]')
+            seed_output_location = os.path.join(self.output_location, str(seed))
+            os.mkdir(seed_output_location)
+            for time in tqdm(range(*self.start_stop_range, 1), ncols=100, colour='green'):
+                self.current_time = time
+                for entity in self.entities:
+                    entity.propagator.update_position(self.current_time, self.timestep)
+                    self._update_reports(entity)
+            self.create_outputs(seed)
 
     def add_entity(self, entity):
         self.entities.append(entity)
@@ -40,13 +44,11 @@ class World:
         for report in self.reports:
             report.update_report(self.current_time, entity)
 
-    def end_sim(self):
-        print('Creating Output')
+    def create_outputs(self, seed):
         reports = {report.__class__.__name__: report.data for report in self.reports}
         for report_name, report_data in reports.items():
-            report_data.to_csv(os.path.join(self.output_location, f'{report_name}.csv'))
-        self.post_sim_script(reports, self.output_location)
-        print('Outputs Created')
+            report_data.to_csv(os.path.join(self.output_location, str(seed), f'{report_name}_{seed}.csv'))
+        self.post_sim_script(reports, os.path.join(self.output_location, str(seed)))
 
     @staticmethod
     def _make_output_location():

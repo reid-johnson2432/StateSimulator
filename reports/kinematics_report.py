@@ -8,7 +8,7 @@ import pandas as pd
 class KinematicsReport:
     def __init__(self):
         self.data = pd.DataFrame(columns=['Time', 'EntityName', 'Latitude', 'Longitude', 'Altitude',
-                                            'PosX', 'PosY', 'PosZ', 'VelX', 'VelY', 'VelZ'])
+                                          'PosX', 'PosY', 'PosZ', 'VelX', 'VelY', 'VelZ'])
 
     def update_report(self, time, entity):
         self._extract_kinematics_data(time, entity)

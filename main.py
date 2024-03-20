@@ -3,15 +3,15 @@ Start the simulation.
 """
 
 import os
+from time import gmtime
 
 from entities.ballistic_missile import BallisticMissile
 from environment.propagators.imu_propagator import IMUPropagator
 from environment.propagators.trajectory_propagator import TrajectoryPropagator
 from environment.world import World
+from metrics.post_sim_script import post_set_script
 from metrics.post_sim_script import post_sim_script
 from reports.kinematics_report import KinematicsReport
-from time import gmtime
-from metrics.post_sim_script import post_set_script
 
 
 def main(start_time, stop_time, seed, timestamp, propagator=TrajectoryPropagator):
@@ -28,14 +28,14 @@ def main(start_time, stop_time, seed, timestamp, propagator=TrajectoryPropagator
 
     world.add_entity(test_missile)
     world.run(seed)
-    set_location = world.output_location
-    return set_location
+    set_output_location = world.output_location
+    return set_output_location
 
 
 if __name__ == '__main__':
     t_0 = 0
     t_f = 120
-    start_seed, stop_seed = 0, 2
+    start_seed, stop_seed = 1, 101
     realtime = gmtime()
     set_location = None
     for s in range(start_seed, stop_seed):

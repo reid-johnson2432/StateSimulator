@@ -67,7 +67,7 @@ if __name__ == '__main__':
     # shooting at white sands missile range
     peak_location, impact_wp = (36.0, -100.0), (33.2385, -106.3464)
     test_trajectory = create_terminal_phase_trajectory(peak_location, impact_wp)
-    output_path = "/Users/reidjohnson/Desktop/"
-    fn = 'terminal_phase'
-    make_3d_plot(list(test_trajectory.values()), show=False)
-    trajectory_data = create_trajectory_file(test_trajectory)
+    # output_path = "/Users/reidjohnson/Desktop/"
+    # fn = 'terminal_phase'
+    # make_3d_plot(list(test_trajectory.values()), show=False)
+    # trajectory_data = create_trajectory_file(test_trajectory)

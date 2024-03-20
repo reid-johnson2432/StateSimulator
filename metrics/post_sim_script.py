@@ -33,26 +33,34 @@ def post_sim_script(reports: dict, output_location):
 
 
 def post_set_script(set_location):
+    from pymap3d.vincenty import vdist
     print('Starting Post Set Script')
     set_data = KinematicsReport().data
     for seed in os.listdir(set_location):
-        if seed in ['.DS_Store', 'dashboard.html', 'impact_locations.html']:
+        if seed in ['.DS_Store', 'dashboard.html', 'endgame_statistics.csv', 'endgame_data.csv',
+                    'dashboardUpdated.html']:
             continue
         filepath = os.path.join(set_location, seed, f'KinematicsReport_{seed}.csv')
         seed_data = pd.read_csv(filepath)
         seed_data['Seed'] = int(seed)
         set_data = pd.concat([set_data, seed_data])
 
-    endgame_time = 119
+    endgame_time = 120
+    aim_point = (33.23849999999999, -106.3463999999999)
+
     endgame_data = set_data[set_data['Time'] == endgame_time]
 
     kinematics_tabs = make_dashboard(set_data)
     endgame_tabs = make_endgame_plot(endgame_data)
     dashboard = Tabs(tabs=[*kinematics_tabs, *endgame_tabs])
-    output_file(os.path.join(set_location, 'dashboard.html'), mode='inline')
+    output_file(os.path.join(set_location, 'dashboardUpdated.html'), mode='inline')
     save(dashboard)
+    endgame_data['dist'] = endgame_data.apply(lambda row: vdist(*aim_point, row['Latitude'], row['Longitude'])[0], axis=1)
+    endgame_statistics = endgame_data.describe()
+    endgame_data.to_csv(os.path.join(set_location, 'endgame_data.csv'))
+    endgame_statistics.to_csv(os.path.join(set_location, 'endgame_statistics.csv'))
 
 
 if __name__ == '__main__':
-    output_folder = '/Users/reidjohnson/Desktop/SimOutput/2024-03-18-114506'
+    output_folder = '/Users/reidjohnson/Desktop/SimOutput/FinalRuns2'
     post_set_script(output_folder)

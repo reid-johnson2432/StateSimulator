@@ -33,6 +33,9 @@ class World:
             for entity in self.entities:
                 self._update_reports(entity)
                 entity.propagator.update_position(self.current_time, self.timestep)
+        self.current_time += 1
+        for entity in self.entities:
+            self._update_reports(entity)
         self.create_outputs(seed)
 
     def add_entity(self, entity):

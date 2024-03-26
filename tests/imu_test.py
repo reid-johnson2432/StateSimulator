@@ -73,4 +73,3 @@ if __name__ == '__main__':
     initial_velocity = [10, 0, 0]
     initial_att = [315, 0, 0]
     errors = main(np.array(initial_position + initial_velocity + initial_att), motion_def_path)
-    steve = 1
